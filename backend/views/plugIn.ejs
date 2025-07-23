@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Plug In - <%= charger.name %></title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    form { max-width: 400px; margin-top: 20px; }
+    input, button { display: block; margin-bottom: 10px; padding: 8px; width: 100%; }
+  </style>
+</head>
+<body>
+  <%- include('partials/navbar') %>
+  <h2>🔌 Plug In Charger: <%= charger.name %></h2>
+  <p>Station: <%= charger.stationId.name %></p>
+  <form action="/chargers/<%= charger._id %>/plug-in" method="POST">
+    <input name="batteryCapacity" type="number" placeholder="Battery Capacity (kWh)" required>
+    <input name="currentCharge" type="number" placeholder="Current Charge (%)" required>
+    <input name="targetCharge" type="number" placeholder="Target Charge (%)" required>
+    <input name="chargingPower" type="number" placeholder="Charging Power (kW)" required>
+    <button type="submit">Start Charging</button>
+  </form>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+  <h1>Welcome <%= user.role %>!</h1>
+
+  <% if (user.role === 'admin') { %>
+    <p>This content is visible only to admins 👑</p>
+    <a href="/admin/settings">Go to Admin Settings</a>
+  <% } else { %>
+    <p>You are not authorized to view this content.</p>
+  <% } %>
+</body>
+</html>
