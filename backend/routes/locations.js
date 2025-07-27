@@ -1,14 +1,15 @@
-const express = require('express');
+import express from 'express';
+import axios from 'axios';
+import Location from '../models/Location.js';
+import Charger from'../models/charger.js';
+import { requireAuth, requireAdmin } from '../middleware/auth.js';
 const router = express.Router();
-const axios = require('axios');
-const Location = require('../models/Location');
-const Charger = require('../models/charger');
 
-// Render location by ID (with status counts)
+// GET location details by ID
 router.get('/:id', async (req, res) => {
   try {
     const location = await Location.findById(req.params.id);
-    if (!location) return res.status(404).send('Location not found');
+    if (!location) return res.status(404).json({ error: 'Location not found' });
 
     const chargers = await Charger.find({ stationId: req.params.id });
 
@@ -18,14 +19,19 @@ router.get('/:id', async (req, res) => {
       faulty: chargers.filter(c => c.status === 'faulty').length
     };
 
-    res.render('location', { location, chargers, statusCounts,user: req.user || null, request: req });
+    res.json({
+      location,
+      chargers,
+      statusCounts,
+      user: req.user || null
+    });
   } catch (err) {
     console.error('Error loading location details:', err);
-    res.status(500).send('Server error');
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
-// API: GET all locations with charger status + soonest ETA
+// GET all locations with charger status + next available ETA
 router.get('/', async (req, res) => {
   try {
     const locations = await Location.find();
@@ -74,7 +80,7 @@ router.get('/', async (req, res) => {
 });
 
 // GET Google route (for EV trip planning)
-router.get('/get-route', async (req, res) => {
+router.get('/get-route', requireAuth,async (req, res) => {
   const { origin, destination } = req.query;
   const apiKey = process.env.GOOGLE_API_KEY;
 
@@ -94,7 +100,4 @@ router.get('/get-route', async (req, res) => {
   }
 });
 
-// Show plug-in form
-
-
-module.exports = router;
+export default router;

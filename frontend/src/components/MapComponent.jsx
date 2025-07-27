@@ -1,7 +1,9 @@
+
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import L from 'leaflet';
 import * as turf from '@turf/turf';
 import polyline from '@mapbox/polyline';
@@ -217,7 +219,7 @@ const MapComponent = () => {
                 <strong>{loc.name}</strong><br />
                 Source: {loc.sourceType}<br />
                 <p><strong>Available:</strong> {loc.chargerStatus?.available || 0}</p>
-                <a href={`http://localhost:5000/${loc._id}`} target="_blank">Details</a>
+                <Link to={`/location/${loc._id}`}>Details</Link>
               </Popup>
             </Marker>
           ))}
@@ -226,7 +228,7 @@ const MapComponent = () => {
               <Popup>
                 <strong>{loc.name}</strong><br />
                 Recharge Stop #{i + 1}<br />
-                <a href={`http://localhost:5000/${loc._id}`} target="_blank">Details</a>
+                <a href={`/location/${loc._id}`} target="_blank">Details</a>
               </Popup>
             </Marker>
           ))}
@@ -246,7 +248,7 @@ const MapComponent = () => {
                 <li key={loc._id} style={{ marginBottom: 12 }}>
                   <strong>{index + 1}. {loc.name}</strong><br />
                   {loc.sourceType}<br />
-                  <a href={`http://localhost:5000/${loc._id}`} target="_blank">Details</a>
+                  <a href={`/location/${loc._id}`} target="_blank">Details</a>
                 </li>
               ))}
             </ul>
@@ -287,7 +289,7 @@ const MapComponent = () => {
 ) : null}
 
                   <br />
-                  <a href={`http://localhost:5000/${loc._id}`} target="_blank">Details</a>
+                  <a href={`/location/${loc._id}`} target="_blank">Details</a>
                 </li>
               ))}
             </ul>

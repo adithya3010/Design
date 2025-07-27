@@ -1,61 +1,57 @@
-const express = require('express');
+// /backend/routes/auth.js
+import express from 'express';
+import passport from 'passport';
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
+
 const router = express.Router();
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const Location = require('../models/Location');
 
-// ✅ GET /login → show login form
-router.get('/login', (req, res) => {
-  const redirectTo = req.query.redirect || '/locations';
-  res.render('login', { redirectTo });
-});
-
-// ✅ GET /register → show register form
-router.get('/register', (req, res) => {
-  const redirectTo = req.query.redirect || '/locations';
-  res.render('register', { redirectTo });
-});
-
-// ✅ POST /auth/register
+// Register
 router.post('/register', async (req, res) => {
-  const { email, password, role, redirectTo } = req.body;
   try {
-    const user = new User({ email, password, role: role || 'user' });
+    const { email, password, role } = req.body;
+    const user = new User({ email, password, role });
     await user.save();
-    res.redirect(redirectTo || '/locations');
+    res.json({ message: 'User registered' });
   } catch (err) {
-    console.error(err);
-    res.status(400).send('Registration failed');
+    res.status(400).json({ error: err.message });
   }
 });
 
-// ✅ POST /auth/login
-router.post('/login', async (req, res) => {
-  const { email, password, redirectTo } = req.body;
-  try {
-    const user = await User.findOne({ email });
-    if (!user || !(await user.comparePassword(password))) {
-      return res.status(401).send('Invalid credentials');
-    }
+// Login
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', { session: false }, (err, user, info) => {
+    if (err || !user) return res.status(400).json({ message: info?.message || 'Login failed' });
 
-    const payload = { id: user._id, role: user.role };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+    // Include role in the JWT
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
-    res.cookie('token', token, { httpOnly: true });
+    res.cookie('token', token, {
+      httpOnly: true,
+      sameSite: 'Lax',
+      secure: false,
+      maxAge: 24 * 60 * 60 * 1000
+    });
 
-    // ✅ Redirect to original page if present
-    res.redirect(redirectTo || '/locations');
-  } catch (err) {
-    console.error('Login failed:', err.message);
-    res.status(500).send('Login failed');
-  }
+    res.json({
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role // ✅ Ensure role is returned
+      }
+    });
+  })(req, res, next);
 });
 
-// ✅ POST /auth/logout
-router.post('/logout', async (req, res) => {
-  res.clearCookie('token');
-  const redirectTo = req.headers.referer || '/locations';
-  res.redirect(redirectTo);
+// POST /api/auth/logout
+router.post('/logout', (req, res) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    sameSite: 'Lax',
+    secure: false // set to true in production if using HTTPS
+  });
+  res.json({ message: 'Logged out successfully' });
 });
 
-module.exports = router;
+
+export default router;

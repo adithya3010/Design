@@ -1,10 +1,9 @@
-// routes/admin.js
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { adminOnly } = require('../middleware/auth');
+const isAdmin = require("../middleware/isAdmin");
 
-router.get('/dashboard', adminOnly, (req, res) => {
-res.render('adminDashboard', { user: req.user });
+router.get("/dashboard", isAdmin, (req, res) => {
+  res.json({ message: "Welcome Admin!", user: req.dbUser });
 });
 
 module.exports = router;

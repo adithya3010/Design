@@ -30,7 +30,9 @@ function calculateChargingTime({
     time += slowEnergy / (effectivePower * 0.5);
   }
 
-  return outputUnit === 'minutes' ? parseFloat((time * 60).toFixed(1)) : parseFloat(time.toFixed(2));
+  return outputUnit === 'minutes'
+    ? parseFloat((time * 60).toFixed(1))
+    : parseFloat(time.toFixed(2));
 }
 
-module.exports = calculateChargingTime;
+export default calculateChargingTime;

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const ChargerSchema = new mongoose.Schema({
   chargerId: String,
@@ -30,4 +30,5 @@ const ChargerSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Charger', ChargerSchema);
+const Charger = mongoose.model('Charger', ChargerSchema);
+export default Charger;

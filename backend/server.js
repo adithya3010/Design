@@ -1,31 +1,28 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const path = require('path');
-const axios = require('axios');
-const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
+// /backend/server.js
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import path from 'path';
+import axios from 'axios';
+import cookieParser from 'cookie-parser';
+import jwt from 'jsonwebtoken';
+import passport from 'passport';
 
-
+import chargerRoutes from './routes/chargers.js';
+import locationRoutes from './routes/locations.js';
+import authRoutes from './routes/auth.js';
+import LocationModel from './models/Location.js';
+import Charger from './models/charger.js';
+import configurePassport from './config/passport.js';
 
 dotenv.config();
-
 const app = express();
 
-// Models and Routes
-const chargerRoutes = require('./routes/chargers');
-const locationRoutes = require('./routes/locations');
-const LocationModel = require('./models/Location');
-const Charger = require('./models/charger');
-const adminRoutes = require('./routes/admin');
-const authRoutes = require('./routes/auth');
+// Configure passport strategies
+configurePassport(passport);
 
-
-
-
-
-// MongoDB Connection
+// Connect to MongoDB
 mongoose.connect('mongodb://localhost:27017/mernleaflet', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -33,35 +30,13 @@ mongoose.connect('mongodb://localhost:27017/mernleaflet', {
   .catch(err => console.error('❌ MongoDB connection failed:', err));
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use((req, res, next) => {
-  res.locals.user = req.user || null;
-  next();
-});
 app.use(cookieParser());
+app.use(passport.initialize());
 
-// View Engine
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-
-// Routes
-app.use('/api/locations', locationRoutes);
-app.use('/chargers', chargerRoutes);
-app.use('/chargers', require('./routes/chargers'));
-app.use('/locations', require('./routes/locations'));  // handles location pages & API
-app.use('/api/admin', adminRoutes);
-app.use('/auth', authRoutes);
-
-
-// In server.js or before your routes
-app.use((req, res, next) => {
-  res.locals.user = req.user || null;
-  res.locals.request = req;
-  next();
-});
-
+// JWT Cookie Middleware
 app.use((req, res, next) => {
   const token = req.cookies.token;
   if (token) {
@@ -78,37 +53,32 @@ app.use((req, res, next) => {
   next();
 });
 
-// Detail Page Route
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/locations', locationRoutes);
+app.use('/api/chargers', chargerRoutes);
+
+// Get location by ID
 app.get('/:id', async (req, res) => {
   try {
     const location = await LocationModel.findById(req.params.id);
-    if (!location) return res.status(404).send('Location not found');
+    if (!location) return res.status(404).json({ error: 'Location not found' });
 
     const chargers = await Charger.find({ stationId: req.params.id });
 
-    const statusCounts = {
-      available: 0,
-      'plugged in': 0,
-      faulty: 0
-    };
-
+    const statusCounts = { available: 0, 'plugged in': 0, faulty: 0 };
     chargers.forEach(charger => {
       if (statusCounts[charger.status] !== undefined) {
         statusCounts[charger.status]++;
       }
     });
 
-    res.render('location', { location, chargers, statusCounts });
-
+    res.json({ location, chargers, statusCounts });
   } catch (err) {
-    console.error('Error rendering location page:', err.message);
-    res.status(500).send('Server error');
+    console.error('Error fetching location:', err.message);
+    res.status(500).json({ error: 'Server error' });
   }
 });
-
-
-
-
 
 // Update travel times
 app.post('/update-travel-times', async (req, res) => {
@@ -137,6 +107,5 @@ app.post('/update-travel-times', async (req, res) => {
   }
 });
 
-// Start server
 const PORT = 5000;
-app.listen(PORT, () => console.log(`🚀 Server started on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running at http://localhost:${PORT}`));

@@ -1,26 +1,39 @@
-import React from 'react';
-import MapComponent from './components/MapComponent';
-import AddLocationForm from './components/AddLocationForm';
+// src/components/Navbar.jsx
+import axios from 'axios';
+import { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+import './Navbar.css';
 
-const App = () => {
-  return (
-    <div>
-      {/* Navbar with EJS links */}
-      <div style={{
-        position: 'absolute',
-        top: '10px',
-        right: '20px',
-        zIndex: 1000
-      }}>
-        <a href="http://localhost:5000/auth/login" style={{ marginRight: '10px' }}>Login</a>
-        <a href="http://localhost:5000/auth/register">Register</a>
-      </div>
+export default function Navbar() {
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-      <h2 style={{ textAlign: 'center' }}>Find Your Charging Station</h2>
-      <AddLocationForm />
-      <MapComponent />
-    </div>
-  );
+  const handleLogout = async () => {
+  await axios.post('/api/auth/logout', {}, { withCredentials: true });
+  logout();           // properly clears context
+  navigate('/login');
 };
 
-export default App;
+
+  return (
+    <nav style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem', background: '#eee' }}>
+      <div>
+        <Link to="/">🏠 Home</Link>
+      </div>
+      <div>
+        {user ? (
+          <>
+            <span style={{ marginRight: '1rem' }}>Welcome, {user.email}</span>
+            <button onClick={handleLogout}>Logout</button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" style={{ marginRight: '1rem' }}>Login</Link>
+            <Link to="/register">Register</Link>
+          </>
+        )}
+      </div>
+    </nav>
+  );
+}
