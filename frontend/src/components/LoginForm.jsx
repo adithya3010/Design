@@ -24,7 +24,7 @@ export default function LoginForm({ onSuccess }) {
         if (user.role === 'admin') {
           navigate('/dashboard');
         } else {
-          navigate(from);
+          navigate('/app');
         }
       }
     } catch (err) {

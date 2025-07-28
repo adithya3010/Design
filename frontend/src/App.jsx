@@ -4,6 +4,7 @@ import { AuthProvider, AuthContext } from './context/AuthContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import LandingPage from './components/LandingPage';
 import Navbar from './components/Navbar';
 import MapComponent from './components/MapComponent';
 import LoginForm from './components/LoginForm';
@@ -34,8 +35,8 @@ const App = () => {
       <ToastContainer position="top-right" autoClose={7000} />
       <AuthProvider>
         <Router>
-          <Navbar onAddStation={() => setShowAddStation(true)} />
           <Routes>
+            <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
             <Route
@@ -48,13 +49,18 @@ const App = () => {
             />
             <Route path="/unauthorized" element={<Unauthorized />} />
             <Route
-              path="/"
+              path="/app"
               element={
-                <div className="fade-in">
-                  <div className="scale-in">
-                    <MapComponent />
-                  </div>
-                </div>
+                <ProtectedRoute>
+                  <>
+                    <Navbar onAddStation={() => setShowAddStation(true)} />
+                    <div className="fade-in">
+                      <div className="scale-in">
+                        <MapComponent />
+                      </div>
+                    </div>
+                  </>
+                </ProtectedRoute>
               }
             />
             <Route path="/admin/requests" element={<AdminStationRequests />} />
