@@ -1,0 +1,20 @@
+modules = ["nodejs-20", "web"]
+
+[nix]
+channel = "stable-25_05"
+
+[workflows]
+runButton = "Start Full Stack App"
+
+[[workflows.workflow]]
+name = "Start Full Stack App"
+author = 36499552
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd backend && node server.js"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd frontend && npm start"
