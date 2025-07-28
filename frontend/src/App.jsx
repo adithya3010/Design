@@ -50,9 +50,11 @@ const App = () => {
             <Route
               path="/"
               element={
-                <div>
-                  <h2 style={{ textAlign: 'center' }}>Find Your Charging Station</h2>
-                  <MapComponent />
+                <div className="fade-in">
+                  <h2 style={{ textAlign: 'center' }} className="slide-up">Find Your Charging Station</h2>
+                  <div className="scale-in">
+                    <MapComponent />
+                  </div>
                 </div>
               }
             />
