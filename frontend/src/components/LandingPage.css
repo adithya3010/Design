@@ -1,14 +1,19 @@
 
+/* Landing Page Styles with Brand Colors */
+
 .landing-page {
+  background: var(--light-background);
   min-height: 100vh;
-  background: #f8f9fb;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
-.landing-header {
-  background: #f8f9fb;
-  border-bottom: none;
-  padding: 1rem 0;
+/* Header Styles */
+.header {
+  background: var(--light-background);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .header-content {
@@ -17,7 +22,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2rem;
+  padding: 1rem 2rem;
 }
 
 .logo-section {
@@ -27,65 +32,67 @@
 }
 
 .logo-icon {
-  width: 32px;
-  height: 32px;
-  background: #4ade80;
-  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  background: var(--brand-green);
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 20px;
   color: white;
-  font-size: 18px;
   font-weight: bold;
 }
 
 .logo-text {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #333333;
+  color: var(--text);
 }
 
 .login-signup-btn {
-  background: #fbbf24;
-  color: #333333;
+  background: var(--brand-yellow);
+  color: var(--text);
   border: none;
   border-radius: 6px;
   padding: 0.6rem 1.2rem;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .login-signup-btn:hover {
-  background: #f59e0b;
+  background: var(--accent-hover);
   transform: translateY(-1px);
 }
 
+/* Hero Section */
 .hero-section {
-  padding: 4rem 2rem 3rem;
+  padding: 4rem 2rem;
   text-align: center;
-  max-width: 1200px;
-  margin: 0 auto;
+  background: var(--light-background);
 }
 
 .hero-content {
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
 .hero-title {
-  font-size: 2.8rem;
+  font-size: 3rem;
   font-weight: 700;
-  color: #333333;
+  color: var(--text);
   margin-bottom: 1.5rem;
   line-height: 1.2;
 }
 
 .hero-description {
-  font-size: 1.1rem;
-  color: #666666;
-  margin-bottom: 2.5rem;
+  font-size: 1.2rem;
+  color: var(--text-light);
+  margin-bottom: 2rem;
   line-height: 1.6;
   max-width: 600px;
   margin-left: auto;
@@ -93,7 +100,7 @@
 }
 
 .start-journey-btn {
-  background: #4ade80;
+  background: var(--brand-green);
   color: white;
   border: none;
   border-radius: 6px;
@@ -111,7 +118,7 @@
 
 .features-section {
   padding: 3rem 2rem;
-  background: #f8f9fb;
+  background: var(--light-background);
 }
 
 .features-grid {
@@ -129,7 +136,7 @@
   text-align: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border);
 }
 
 .feature-card:hover {
@@ -144,9 +151,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #333333;
   font-size: 24px;
 }
+
+.feature-icon.map { color: var(--brand-blue); }
+.feature-icon.zap { color: var(--brand-yellow); }
+.feature-icon.leaf { color: var(--brand-green); }
+.feature-icon.shield { color: var(--text); }
 
 .feature-icon svg {
   width: 24px;
@@ -156,12 +167,12 @@
 .feature-title {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #333333;
+  color: var(--text);
   margin-bottom: 0.8rem;
 }
 
 .feature-description {
-  color: #666666;
+  color: var(--text-light);
   line-height: 1.5;
   font-size: 0.9rem;
 }
@@ -169,7 +180,7 @@
 .cta-section {
   padding: 4rem 2rem;
   text-align: center;
-  background: #f8f9fb;
+  background: var(--light-background);
 }
 
 .cta-content {
@@ -181,18 +192,18 @@
   font-size: 2.2rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  color: #333333;
+  color: var(--text);
 }
 
 .cta-description {
   font-size: 1rem;
   margin-bottom: 2rem;
-  color: #666666;
+  color: var(--text-light);
   line-height: 1.6;
 }
 
 .get-started-btn {
-  background: #3b82f6;
+  background: var(--brand-blue);
   color: white;
   border: none;
   border-radius: 6px;
@@ -204,7 +215,7 @@
 }
 
 .get-started-btn:hover {
-  background: #2563eb;
+  background: var(--primary-dark);
   transform: translateY(-1px);
 }
 

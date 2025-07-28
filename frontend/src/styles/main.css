@@ -1,22 +1,32 @@
+
 /* Landing Page Inspired Color Palette */
 
 :root {
-  /* Primary Colors from Landing Page */
-  --primary: #3b82f6;           /* Blue button color */
+  /* Brand Colors from User Specification */
+  --brand-green: #4ade80;        /* Bright green for "Start Your Journey" */
+  --brand-blue: #3b82f6;         /* Bright blue for "Get Started Now" */
+  --brand-yellow: #fbbf24;       /* Golden yellow for "Login / Sign Up" */
+  --light-background: #f8f9fb;   /* Light gray/blue background */
+  --energy-green: hsl(122, 39%, 49%);
+  --warning-orange: hsl(33, 100%, 50%);
+  --error-red: hsl(4, 90%, 58%);
+
+  /* Primary Colors (using brand colors) */
+  --primary: var(--brand-blue);
   --primary-light: #60a5fa;
   --primary-dark: #2563eb;
-  --secondary: #4ade80;         /* Green button color */
-  --accent: #fbbf24;            /* Yellow button color */
+  --secondary: var(--brand-green);
+  --accent: var(--brand-yellow);
   --accent-hover: #f59e0b;
 
   /* Background Colors */
-  --background: #f8f9fb;        /* Light grayish-blue from image */
-  --surface: #ffffff;           /* White cards */
+  --background: var(--light-background);
+  --surface: #ffffff;
   --surface-hover: #f5f5f5;
 
   /* Text Colors */
-  --text: #333333;              /* Dark text from image */
-  --text-light: #666666;        /* Light gray text from image */
+  --text: #333333;
+  --text-light: #666666;
   --text-muted: #999999;
 
   /* UI Elements */
@@ -90,40 +100,53 @@ button, .btn {
 }
 
 /* Primary Button (Blue) */
-.btn-primary, button:not(.btn-secondary):not(.btn-accent):not(.logout-btn) {
-  background: var(--primary);
+.btn-primary, button:not(.btn-secondary):not(.btn-accent):not(.logout-btn):not(.btn-success):not(.btn-warning):not(.btn-danger) {
+  background: var(--brand-blue);
   color: white;
   box-shadow: var(--shadow-light);
 }
 
-.btn-primary:hover, button:not(.btn-secondary):not(.btn-accent):not(.logout-btn):hover {
+.btn-primary:hover, button:not(.btn-secondary):not(.btn-accent):not(.logout-btn):not(.btn-success):not(.btn-warning):not(.btn-danger):hover {
   background: var(--primary-dark);
   transform: translateY(-1px);
   box-shadow: var(--shadow-medium);
 }
 
 /* Secondary Button (Green) */
-.btn-secondary {
-  background: var(--secondary);
+.btn-secondary, .btn-success {
+  background: var(--brand-green);
   color: white;
   box-shadow: var(--shadow-light);
 }
 
-.btn-secondary:hover {
-  background: #45a049;
+.btn-secondary:hover, .btn-success:hover {
+  background: #22c55e;
   transform: translateY(-1px);
   box-shadow: var(--shadow-medium);
 }
 
-/* Accent Button (Orange/Yellow) */
-.btn-accent {
-  background: var(--accent);
+/* Accent Button (Yellow) */
+.btn-accent, .btn-warning {
+  background: var(--brand-yellow);
   color: var(--text);
   box-shadow: var(--shadow-light);
 }
 
-.btn-accent:hover {
+.btn-accent:hover, .btn-warning:hover {
   background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-medium);
+}
+
+/* Danger Button (Red) */
+.btn-danger {
+  background: var(--error-red);
+  color: white;
+  box-shadow: var(--shadow-light);
+}
+
+.btn-danger:hover {
+  background: #dc2626;
   transform: translateY(-1px);
   box-shadow: var(--shadow-medium);
 }
@@ -143,9 +166,9 @@ input, select, textarea {
 }
 
 input:focus, select:focus, textarea:focus {
-  border-color: var(--primary);
+  border-color: var(--brand-blue);
   outline: none;
-  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
 label {
@@ -192,14 +215,22 @@ label {
   margin-right: 8px;
 }
 
-.status-available { background: var(--secondary); }
-.status-occupied { background: var(--accent); }
-.status-offline { background: #f44336; }
+.status-available { background: var(--brand-green); }
+.status-occupied { background: var(--brand-yellow); }
+.status-offline { background: var(--error-red); }
 
 /* Utility Classes */
 .text-center { text-align: center; }
 .text-muted { color: var(--text-muted); }
 .text-light { color: var(--text-light); }
+.text-primary { color: var(--brand-blue); }
+.text-success { color: var(--brand-green); }
+.text-warning { color: var(--brand-yellow); }
+.text-danger { color: var(--error-red); }
+.bg-primary { background-color: var(--brand-blue); }
+.bg-success { background-color: var(--brand-green); }
+.bg-warning { background-color: var(--brand-yellow); }
+.bg-danger { background-color: var(--error-red); }
 .mt-1 { margin-top: 1rem; }
 .mt-2 { margin-top: 2rem; }
 .mb-1 { margin-bottom: 1rem; }
@@ -254,7 +285,7 @@ label {
 
 /* Focus Accessibility */
 *:focus {
-  outline: 2px solid var(--primary);
+  outline: 2px solid var(--brand-blue);
   outline-offset: 2px;
 }
 
@@ -268,7 +299,7 @@ label {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary);
+  background: var(--brand-blue);
   border-radius: 4px;
 }
 

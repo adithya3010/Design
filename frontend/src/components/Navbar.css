@@ -4,9 +4,9 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-light);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -19,7 +19,7 @@ nav {
   gap: 0.75rem;
   font-weight: 700;
   font-size: 1.5rem;
-  color: #333333;
+  color: var(--text);
 }
 
 .logo img {
@@ -35,19 +35,19 @@ nav {
 }
 
 .nav-actions button {
-  background: #fbbf24;
-  color: #333333;
+  background: var(--brand-yellow);
+  color: var(--text);
   border: none;
   border-radius: 6px;
   padding: 0.6rem 1.2rem;
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
 
 .nav-actions button:hover {
-  background: #f59e0b;
+  background: var(--accent-hover);
   transform: translateY(-1px);
 }
 
@@ -56,37 +56,37 @@ nav {
 }
 
 .user-info {
-  color: #666666;
+  color: var(--text-light);
   font-size: 0.9rem;
   font-weight: 500;
 }
 
 .nav-actions a {
-  color: #3b82f6;
+  color: var(--brand-blue);
   text-decoration: none;
   font-weight: 500;
   padding: 0.5rem 1rem;
   border-radius: 6px;
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
 
 .nav-actions a:hover {
-  background: #f5f5f5;
-  color: #2563eb;
+  background: var(--surface-hover);
+  color: var(--primary-dark);
 }
 
 .logout-btn {
   background: transparent !important;
-  color: #666666 !important;
-  border: 1px solid #e0e0e0 !important;
+  color: var(--text-light) !important;
+  border: 1px solid var(--border) !important;
   padding: 0.5rem 1rem !important;
   font-size: 0.9rem !important;
 }
 
 .logout-btn:hover {
-  background: #f5f5f5 !important;
-  color: #333333 !important;
-  border-color: #3b82f6 !important;
+  background: var(--surface-hover) !important;
+  color: var(--text) !important;
+  border-color: var(--brand-blue) !important;
   transform: none !important;
 }
 
