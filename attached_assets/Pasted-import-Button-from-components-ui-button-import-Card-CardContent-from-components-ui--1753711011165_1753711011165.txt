@@ -1,0 +1,103 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Zap, Map, Leaf, Shield } from "lucide-react";
+
+export default function Landing() {
+  const handleLogin = () => {
+    window.location.href = "/api/login";
+  };
+
+  return (
+    <div className="min-h-screen" style={{ backgroundColor: '#f8f9fb' }}>
+      {/* Navigation */}
+      <nav className="text-gray-800 p-4" style={{ backgroundColor: '#f8f9fb' }}>
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: '#4ade80' }}>
+              <Zap className="w-6 h-6 text-white" />
+            </div>
+            <span className="text-2xl font-bold text-gray-900">ElectraMap</span>
+          </div>
+          <Button 
+            onClick={handleLogin} 
+            className="text-black hover:opacity-90 border-0 font-semibold px-6 py-2"
+            style={{ backgroundColor: '#fbbf24' }}
+          >
+            Login / Sign Up
+          </Button>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <div className="container mx-auto px-4 py-16">
+        <div className="text-center mb-16">
+          <h1 className="text-5xl font-bold text-gray-900 mb-6">
+            Find EV Charging Stations
+            <span className="block">Across India</span>
+          </h1>
+          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Plan your electric vehicle journey with confidence. Discover charging stations, 
+            plan optimal routes, and charge sustainably with renewable energy.
+          </p>
+          <Button 
+            onClick={handleLogin} 
+            size="lg" 
+            className="text-white hover:opacity-90 border-0 font-semibold px-8 py-4 text-lg"
+            style={{ backgroundColor: '#4ade80' }}
+          >
+            Start Your Journey
+          </Button>
+        </div>
+
+        {/* Features Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <Card className="text-center p-6 hover:shadow-lg transition-shadow">
+            <CardContent className="pt-6">
+              <Map className="w-12 h-12 text-brand-blue mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Interactive Map</h3>
+              <p className="text-gray-600">Real-time station availability across India with live status updates</p>
+            </CardContent>
+          </Card>
+
+          <Card className="text-center p-6 hover:shadow-lg transition-shadow">
+            <CardContent className="pt-6">
+              <Zap className="w-12 h-12 text-brand-yellow mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Smart Trip Planning</h3>
+              <p className="text-gray-600">Optimized routes with charging stops based on your vehicle's range</p>
+            </CardContent>
+          </Card>
+
+          <Card className="text-center p-6 hover:shadow-lg transition-shadow">
+            <CardContent className="pt-6">
+              <Leaf className="w-12 h-12 text-green-500 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Renewable Energy</h3>
+              <p className="text-gray-600">Find stations powered by clean, sustainable energy sources</p>
+            </CardContent>
+          </Card>
+
+          <Card className="text-center p-6 hover:shadow-lg transition-shadow">
+            <CardContent className="pt-6">
+              <Shield className="w-12 h-12 text-brand-green mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Reliable Network</h3>
+              <p className="text-gray-600">Verified stations with real-time availability and session management</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Call to Action */}
+        <div className="text-center bg-white rounded-2xl p-8 shadow-lg">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">Ready to Go Electric?</h2>
+          <p className="text-gray-600 mb-6">Join thousands of EV drivers using ElectraMap for seamless charging experiences</p>
+          <Button 
+            onClick={handleLogin} 
+            size="lg" 
+            className="text-white hover:opacity-90 border-0 font-semibold px-8 py-4"
+            style={{ backgroundColor: '#3b82f6' }}
+          >
+            Get Started Now
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
