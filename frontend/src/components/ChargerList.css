@@ -1,5 +1,5 @@
 
-/* ChargerList Styles with Brand Colors */
+/* ChargerList - Electric Energy Theme */
 
 .charger-list {
   display: grid;
@@ -12,11 +12,22 @@
 .charger-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-large);
   padding: 1.5rem;
   box-shadow: var(--shadow-light);
-  transition: all 0.3s ease;
+  transition: var(--transition);
   position: relative;
+  overflow: hidden;
+}
+
+.charger-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--brand-blue), var(--brand-green));
 }
 
 .charger-card:hover {
@@ -52,11 +63,12 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--light-background);
+  background: var(--surface-secondary);
   padding: 0.5rem 0.75rem;
-  border-radius: 6px;
+  border-radius: var(--radius);
   font-size: 0.9rem;
   color: var(--text-light);
+  border: 1px solid var(--border);
 }
 
 .spec-label {
@@ -73,24 +85,25 @@
   font-size: 0.85rem;
   font-weight: 500;
   text-transform: capitalize;
+  border: 1px solid;
 }
 
 .status-badge.available {
-  background: rgba(74, 222, 128, 0.1);
-  color: var(--brand-green);
-  border: 1px solid rgba(74, 222, 128, 0.2);
+  background: rgba(5, 150, 105, 0.1);
+  color: var(--brand-green-dark);
+  border-color: rgba(5, 150, 105, 0.2);
 }
 
 .status-badge.plugged-in {
-  background: rgba(251, 191, 36, 0.1);
-  color: var(--brand-yellow);
-  border: 1px solid rgba(251, 191, 36, 0.2);
+  background: rgba(217, 119, 6, 0.1);
+  color: var(--warning-amber);
+  border-color: rgba(217, 119, 6, 0.2);
 }
 
 .status-badge.offline {
-  background: rgba(239, 68, 68, 0.1);
+  background: rgba(220, 38, 38, 0.1);
   color: var(--error-red);
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-color: rgba(220, 38, 38, 0.2);
 }
 
 .status-indicator {
@@ -104,7 +117,7 @@
 }
 
 .status-indicator.plugged-in {
-  background: var(--brand-yellow);
+  background: var(--warning-amber);
 }
 
 .status-indicator.offline {
@@ -112,11 +125,12 @@
 }
 
 .charging-session {
-  background: var(--light-background);
-  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(5, 150, 105, 0.05), rgba(30, 64, 175, 0.05));
+  border-radius: var(--radius);
   padding: 1rem;
   margin: 1rem 0;
-  border-left: 4px solid var(--brand-yellow);
+  border-left: 4px solid var(--brand-green);
+  border: 1px solid rgba(5, 150, 105, 0.2);
 }
 
 .session-info {
@@ -147,15 +161,15 @@
 }
 
 .countdown-display {
-  background: linear-gradient(135deg, var(--brand-yellow), #f59e0b);
-  color: white;
+  background: linear-gradient(135deg, var(--accent-orange), var(--accent-orange-light));
+  color: var(--text-inverse);
   padding: 0.75rem 1rem;
-  border-radius: 8px;
+  border-radius: var(--radius);
   text-align: center;
   font-weight: 600;
   font-size: 1.1rem;
   margin: 1rem 0;
-  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+  box-shadow: var(--shadow-light);
 }
 
 .charger-actions {
@@ -167,24 +181,30 @@
 
 .action-button {
   background: var(--brand-green);
-  color: white;
+  color: var(--text-inverse);
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius);
   padding: 0.75rem 1.5rem;
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition);
   display: flex;
   align-items: center;
   gap: 0.5rem;
   border: 2px solid transparent;
+  box-shadow: var(--shadow-light);
 }
 
 .action-button:hover {
-  background: #22c55e;
+  background: var(--brand-green-light);
   transform: translateY(-1px);
   box-shadow: var(--shadow-medium);
+}
+
+.action-button:active {
+  background: var(--brand-green-dark);
+  transform: translateY(0);
 }
 
 .action-button.plug-out {
@@ -192,22 +212,28 @@
 }
 
 .action-button.plug-out:hover {
-  background: #dc2626;
+  background: #b91c1c;
+}
+
+.action-button.plug-out:active {
+  background: #991b1b;
 }
 
 .action-button:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
 }
 
 .plug-in-form {
   background: var(--surface);
   border: 2px solid var(--brand-blue);
-  border-radius: 12px;
+  border-radius: var(--radius-large);
   padding: 1.5rem;
   margin-top: 1rem;
   animation: slideDown 0.3s ease;
+  box-shadow: var(--shadow-medium);
 }
 
 @keyframes slideDown {
@@ -253,17 +279,18 @@
 .form-group input {
   padding: 0.75rem;
   border: 2px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius);
   font-size: 0.9rem;
-  transition: all 0.3s ease;
+  transition: var(--transition);
   background: var(--surface);
   color: var(--text);
+  margin-bottom: 0;
 }
 
 .form-group input:focus {
   border-color: var(--brand-blue);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
 }
 
 .form-actions {
@@ -274,42 +301,53 @@
 
 .submit-button {
   background: var(--brand-blue);
-  color: white;
+  color: var(--text-inverse);
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius);
   padding: 0.75rem 1.5rem;
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition);
+  box-shadow: var(--shadow-light);
 }
 
 .submit-button:hover {
-  background: var(--primary-dark);
+  background: var(--brand-blue-light);
   transform: translateY(-1px);
+  box-shadow: var(--shadow-medium);
+}
+
+.submit-button:active {
+  background: var(--brand-blue-dark);
+  transform: translateY(0);
 }
 
 .cancel-button {
   background: transparent;
   color: var(--text-light);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius);
   padding: 0.75rem 1.5rem;
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
 
 .cancel-button:hover {
   background: var(--surface-hover);
   border-color: var(--text-light);
+  color: var(--text);
 }
 
 .empty-state {
   text-align: center;
   padding: 3rem 2rem;
   color: var(--text-light);
+  background: var(--surface);
+  border-radius: var(--radius-large);
+  border: 1px solid var(--border);
 }
 
 .empty-state-icon {

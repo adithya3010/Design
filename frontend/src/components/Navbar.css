@@ -1,4 +1,6 @@
 
+/* Navbar - Electric Energy Theme */
+
 nav {
   display: flex;
   justify-content: space-between;
@@ -20,12 +22,18 @@ nav {
   font-weight: 700;
   font-size: 1.5rem;
   color: var(--text);
+  text-decoration: none;
+}
+
+.logo:hover {
+  text-decoration: none;
+  color: var(--text);
 }
 
 .logo img {
   width: 32px;
   height: 32px;
-  border-radius: 6px;
+  border-radius: var(--radius);
 }
 
 .nav-actions {
@@ -35,23 +43,26 @@ nav {
 }
 
 .nav-actions button {
-  background: var(--brand-yellow);
-  color: var(--text);
+  background: var(--brand-green);
+  color: var(--text-inverse);
   border: none;
-  border-radius: 6px;
-  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius);
+  padding: 0.75rem 1.25rem;
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
   transition: var(--transition);
+  box-shadow: var(--shadow-light);
 }
 
 .nav-actions button:hover {
-  background: var(--accent-hover);
+  background: var(--brand-green-light);
   transform: translateY(-1px);
+  box-shadow: var(--shadow-medium);
 }
 
 .nav-actions button:active {
+  background: var(--brand-green-dark);
   transform: translateY(0);
 }
 
@@ -59,28 +70,32 @@ nav {
   color: var(--text-light);
   font-size: 0.9rem;
   font-weight: 500;
+  padding: 0.5rem 0;
 }
 
 .nav-actions a {
   color: var(--brand-blue);
   text-decoration: none;
   font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
   transition: var(--transition);
+  border: 1px solid transparent;
 }
 
 .nav-actions a:hover {
   background: var(--surface-hover);
-  color: var(--primary-dark);
+  color: var(--brand-blue-dark);
+  border-color: var(--brand-blue);
 }
 
 .logout-btn {
   background: transparent !important;
   color: var(--text-light) !important;
   border: 1px solid var(--border) !important;
-  padding: 0.5rem 1rem !important;
+  padding: 0.6rem 1rem !important;
   font-size: 0.9rem !important;
+  box-shadow: none !important;
 }
 
 .logout-btn:hover {
@@ -88,6 +103,21 @@ nav {
   color: var(--text) !important;
   border-color: var(--brand-blue) !important;
   transform: none !important;
+  box-shadow: var(--shadow-light) !important;
+}
+
+/* Logo with gradient effect */
+.logo span {
+  background: linear-gradient(135deg, var(--brand-blue), var(--brand-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Electric icon styling */
+.logo div {
+  background: linear-gradient(135deg, var(--brand-green), var(--brand-green-light)) !important;
+  box-shadow: var(--shadow-light);
 }
 
 @media (max-width: 768px) {
@@ -95,6 +125,7 @@ nav {
     padding: 1rem;
     flex-wrap: wrap;
     height: auto;
+    gap: 1rem;
   }
   
   .logo {
@@ -103,14 +134,33 @@ nav {
   
   .nav-actions {
     gap: 0.8rem;
+    flex-wrap: wrap;
   }
   
   .nav-actions button {
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1rem;
     font-size: 0.85rem;
   }
   
   .user-info {
     display: none;
+  }
+  
+  .nav-actions a {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-actions {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  
+  .logo {
+    width: 100%;
+    justify-content: center;
   }
 }
