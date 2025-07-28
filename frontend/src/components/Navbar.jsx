@@ -1,3 +1,4 @@
+
 // src/components/Navbar.jsx
 import axios from 'axios';
 import { useContext } from 'react';
@@ -23,7 +24,7 @@ export default function Navbar({ onAddStation }) {
           <div style={{
             width: '32px',
             height: '32px',
-            backgroundColor: '#2e7d32',
+            backgroundColor: '#1e40af',
             borderRadius: '6px',
             display: 'flex',
             alignItems: 'center',
