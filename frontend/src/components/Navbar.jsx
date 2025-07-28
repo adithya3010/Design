@@ -19,15 +19,27 @@ export default function Navbar({ onAddStation }) {
   return (
     <nav>
       <div className="logo">
-        <Link to="/"><img src="/" alt="Logo" /></Link>
+        <Link to="/">
+          <div style={{
+            width: '32px',
+            height: '32px',
+            backgroundColor: '#2e7d32',
+            borderRadius: '6px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <span style={{ color: 'white', fontSize: '18px', fontWeight: 'bold' }}>⚡</span>
+          </div>
+        </Link>
         <span>Electra Map</span>
       </div>
-      <div>
+      <div className="nav-actions">
         {user ? (
           <>
-            <button onClick={onAddStation}>Add Station</button>
+            <button onClick={onAddStation}>+ Add Station</button>
             <span className="user-info">Welcome, {user.email}</span>
-            <button onClick={handleLogout}>Logout</button>
+            <button className="logout-btn" onClick={handleLogout}>Logout</button>
           </>
         ) : (
           <>

@@ -1,0 +1,121 @@
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-light);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 70px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--primary);
+}
+
+.logo img {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-actions button {
+  background: linear-gradient(135deg, #ffd600 0%, #ffc107 100%);
+  color: var(--primary-dark);
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-light);
+  transition: var(--transition);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.nav-actions button:hover {
+  background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.nav-actions button:active {
+  transform: translateY(0);
+}
+
+.user-info {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.nav-actions a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  transition: var(--transition);
+}
+
+.nav-actions a:hover {
+  background: var(--surface-hover);
+  color: var(--primary-dark);
+}
+
+.logout-btn {
+  background: transparent !important;
+  color: var(--text-light) !important;
+  border: 1px solid var(--border) !important;
+  padding: 0.5rem 1rem !important;
+  font-size: 0.9rem !important;
+}
+
+.logout-btn:hover {
+  background: var(--surface-hover) !important;
+  color: var(--text) !important;
+  border-color: var(--primary) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 768px) {
+  nav {
+    padding: 1rem;
+    flex-wrap: wrap;
+    height: auto;
+  }
+  
+  .logo {
+    font-size: 1.25rem;
+  }
+  
+  .nav-actions {
+    gap: 1rem;
+  }
+  
+  .nav-actions button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  
+  .user-info {
+    display: none;
+  }
+}
