@@ -2,12 +2,12 @@
 
 :root {
   /* Primary Colors from Landing Page */
-  --primary: #2196f3;           /* Blue button color */
-  --primary-light: #64b5f6;
-  --primary-dark: #1976d2;
-  --secondary: #4caf50;         /* Green button color */
-  --accent: #ffc107;            /* Orange/yellow button color */
-  --accent-hover: #ffb300;
+  --primary: #3b82f6;           /* Blue button color */
+  --primary-light: #60a5fa;
+  --primary-dark: #2563eb;
+  --secondary: #4ade80;         /* Green button color */
+  --accent: #fbbf24;            /* Yellow button color */
+  --accent-hover: #f59e0b;
 
   /* Background Colors */
   --background: #f8f9fb;        /* Light grayish-blue from image */

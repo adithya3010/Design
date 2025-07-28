@@ -24,7 +24,7 @@ export default function Navbar({ onAddStation }) {
           <div style={{
             width: '32px',
             height: '32px',
-            backgroundColor: '#1e40af',
+            backgroundColor: '#4ade80',
             borderRadius: '6px',
             display: 'flex',
             alignItems: 'center',

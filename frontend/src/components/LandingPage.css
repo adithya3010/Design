@@ -29,7 +29,7 @@
 .logo-icon {
   width: 32px;
   height: 32px;
-  background: #2196f3;
+  background: #4ade80;
   border-radius: 6px;
   display: flex;
   align-items: center;
@@ -46,7 +46,7 @@
 }
 
 .login-signup-btn {
-  background: #ffc107;
+  background: #fbbf24;
   color: #333333;
   border: none;
   border-radius: 6px;
@@ -58,7 +58,7 @@
 }
 
 .login-signup-btn:hover {
-  background: #ffb300;
+  background: #f59e0b;
   transform: translateY(-1px);
 }
 
@@ -93,7 +93,7 @@
 }
 
 .start-journey-btn {
-  background: #4caf50;
+  background: #4ade80;
   color: white;
   border: none;
   border-radius: 6px;
@@ -105,7 +105,7 @@
 }
 
 .start-journey-btn:hover {
-  background: #45a049;
+  background: #22c55e;
   transform: translateY(-1px);
 }
 
@@ -192,7 +192,7 @@
 }
 
 .get-started-btn {
-  background: #2196f3;
+  background: #3b82f6;
   color: white;
   border: none;
   border-radius: 6px;
@@ -204,7 +204,7 @@
 }
 
 .get-started-btn:hover {
-  background: #1976d2;
+  background: #2563eb;
   transform: translateY(-1px);
 }
 
