@@ -1,9 +1,75 @@
 import express from 'express';
 import axios from 'axios';
 import Location from '../models/Location.js';
-import Charger from'../models/charger.js';
+import Charger from '../models/charger.js';
+import StationRequest from '../models/StationRequest.js';
 import { requireAuth, requireAdmin } from '../middleware/auth.js';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+
 const router = express.Router();
+
+// ---------- Multer Setup ----------
+const uploadDir = path.join('uploads/station-requests');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    const uniqueName = `${Date.now()}-${file.originalname}`;
+    cb(null, uniqueName);
+  }
+});
+
+const upload = multer({
+  storage,
+  limits: { files: 3 }, // Max 3 images
+  fileFilter: function (req, file, cb) {
+    const allowed = ['image/jpeg', 'image/png', 'image/jpg'];
+    if (allowed.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only JPEG and PNG images are allowed'));
+    }
+  }
+});
+
+// ---------- Routes ----------
+
+// GET Google route (for EV trip planning)
+router.get('/get-route', async (req, res) => {
+  try {
+    const { origin, destination, waypoints } = req.query;
+
+    const response = await axios.get(
+      'https://maps.googleapis.com/maps/api/directions/json',
+      {
+        params: {
+          origin,
+          destination,
+          key: process.env.GOOGLE_MAPS_API_KEY,
+          waypoints
+        }
+      }
+    );
+
+    if (!response.data.routes || response.data.routes.length === 0) {
+      return res.status(500).json({ error: 'No route found from Google API.' });
+    }
+
+    const encoded = response.data.routes[0].overview_polyline.points;
+    res.json({ encoded });
+
+  } catch (err) {
+    console.error('Google Directions API error:', err.message);
+    res.status(500).json({ error: 'Failed to fetch directions.' });
+  }
+});
 
 // GET location details by ID
 router.get('/:id', async (req, res) => {
@@ -31,7 +97,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// GET all locations with charger status + next available ETA
+// GET all locations
 router.get('/', async (req, res) => {
   try {
     const locations = await Location.find();
@@ -79,24 +145,31 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET Google route (for EV trip planning)
-router.get('/get-route', requireAuth,async (req, res) => {
-  const { origin, destination } = req.query;
-  const apiKey = process.env.GOOGLE_API_KEY;
+// POST new station request with images
+router.post('/', requireAuth, upload.array('images', 3), async (req, res) => {
+  const { name, latitude, longitude, sourceType } = req.body;
+
+  if (!name || !latitude || !longitude || !sourceType) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
 
   try {
-    const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${apiKey}`;
-    const response = await axios.get(url);
+    const imagePaths = req.files.map(file => file.path);
 
-    if (!response.data.routes.length) {
-      return res.status(400).json({ error: 'No routes found' });
-    }
+    const newRequest = new StationRequest({
+      name,
+      latitude,
+      longitude,
+      sourceType,
+      images: imagePaths,
+      submittedBy: req.user._id
+    });
 
-    const encoded = response.data.routes[0].overview_polyline.points;
-    res.json({ encoded });
-  } catch (err) {
-    console.error('Error fetching route:', err);
-    res.status(500).json({ error: 'Failed to fetch route' });
+    await newRequest.save();
+    res.status(201).json({ message: '✅ Request with images submitted for admin approval' });
+  } catch (error) {
+    console.error('❌ Error saving station request:', error.message);
+    res.status(500).json({ error: 'Failed to submit request' });
   }
 });
 

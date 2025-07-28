@@ -60,7 +60,7 @@ export default function LocationPage() {
       <h2>Available Chargers</h2>
       <ChargerList chargers={chargers} />
 
-      <AddChargerForm locationId={id} />
+      {/* <AddChargerForm locationId={id} /> */}
     </div>
   );
 }

@@ -12,6 +12,9 @@ import passport from 'passport';
 import chargerRoutes from './routes/chargers.js';
 import locationRoutes from './routes/locations.js';
 import authRoutes from './routes/auth.js';
+import adminRoutes from './routes/admin.js';
+
+
 import LocationModel from './models/Location.js';
 import Charger from './models/charger.js';
 import configurePassport from './config/passport.js';
@@ -57,14 +60,25 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/locations', locationRoutes);
 app.use('/api/chargers', chargerRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/uploads', express.static('uploads'));
+
 
 // Get location by ID
-app.get('/:id', async (req, res) => {
+// Only match valid ObjectId
+app.get('/:id', async (req, res, next) => {
+  const objectIdPattern = /^[a-fA-F0-9]{24}$/;
+  const { id } = req.params;
+
+  if (!objectIdPattern.test(id)) {
+    return res.status(400).json({ error: 'Invalid ObjectId' });
+  }
+
   try {
-    const location = await LocationModel.findById(req.params.id);
+    const location = await LocationModel.findById(id);
     if (!location) return res.status(404).json({ error: 'Location not found' });
 
-    const chargers = await Charger.find({ stationId: req.params.id });
+    const chargers = await Charger.find({ stationId: id });
 
     const statusCounts = { available: 0, 'plugged in': 0, faulty: 0 };
     chargers.forEach(charger => {
@@ -79,6 +93,7 @@ app.get('/:id', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+
 
 // Update travel times
 app.post('/update-travel-times', async (req, res) => {

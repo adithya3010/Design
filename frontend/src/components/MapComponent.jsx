@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -21,6 +20,10 @@ const greenIcon = new L.Icon({
   popupAnchor: [1, -34],
   shadowSize: [41, 41]
 });
+const redDotIcon = new L.DivIcon({
+  html: '<div style="width: 12px; height: 12px; background: red; border-radius: 50%; box-shadow: 0 0 6px red;"></div>',
+  className: ''
+});
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -40,6 +43,7 @@ const MapComponent = () => {
   const [filtered, setFiltered] = useState([]);
   const [chargingStops, setChargingStops] = useState([]);
   const [showSidebar, setShowSidebar] = useState(false);
+  const [lowBatteryPoints, setLowBatteryPoints] = useState([]);
 
   const getDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371;
@@ -55,10 +59,10 @@ const MapComponent = () => {
   };
 
   useEffect(() => {
-   axios.get('http://localhost:5000/api/locations')
-  .then((res) => {
-    setLocations(res.data);
-  });
+    axios.get('http://localhost:5000/api/locations')
+      .then((res) => {
+        setLocations(res.data);
+      });
 
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -117,8 +121,10 @@ const MapComponent = () => {
     setShowList(true);
   };
 
+ 
+
   const handleRoute = async () => {
-    if (!start || !end) return;
+    if (!start || !end || locations.length === 0) return;
 
     const battery = parseInt(prompt("Enter your current battery percentage:"), 10);
     const efficiency = parseFloat(prompt("Enter your vehicle's km per 1% charge:"));
@@ -127,37 +133,62 @@ const MapComponent = () => {
       alert("Please enter valid battery percentage and efficiency.");
       return;
     }
+          const stops = [];
+
 
     try {
-      const res = await axios.get('http://localhost:5000/api/locations/get-route', {
-        params: {
-          origin: `${start.lat},${start.lng}`,
-          destination: `${end.lat},${end.lng}`
-        }
-      });
+      const waypointStr = stops.map(stop => `${stop.latitude},${stop.longitude}`).join('|');
+
+const res = await axios.get('http://localhost:5000/api/locations/get-route', {
+  params: {
+    origin: `${start.lat},${start.lng}`,
+    destination: `${end.lat},${end.lng}`,
+    waypoints: waypointStr
+  }
+});
+
 
       const encoded = res.data.encoded;
-      const path = polyline.decode(encoded).map(([lat, lng]) => ({ lat, lng }));
-      setRoutePoints(path);
+      if (!encoded) {
+        alert("No route received from server.");
+        return;
+      }
 
-      const line = turf.lineString(path.map(p => [p.lng, p.lat]));
+      const path = polyline.decode(encoded).map(([lat, lng]) => ({ lat, lng }));
+      if (!path || path.length === 0) {
+        alert("Failed to decode route.");
+        return;
+      }
+
+      setRoutePoints(path);
 
       let currentBattery = battery;
       let cumulativeDistance = 0;
-      let lastStop = path[0];
-      const stops = [];
+      const lowBatteryMarkers = [];
 
       for (let i = 1; i < path.length; i++) {
-        const segmentDistance = getDistance(path[i - 1].lat, path[i - 1].lng, path[i].lat, path[i].lng);
+        const segmentDistance = getDistance(
+          path[i - 1].lat, path[i - 1].lng,
+          path[i].lat, path[i].lng
+        );
+
         cumulativeDistance += segmentDistance;
 
-        if (cumulativeDistance > currentBattery * efficiency) {
+        const usedBattery = cumulativeDistance / efficiency;
+        const remainingBattery = currentBattery - usedBattery;
+
+        if (remainingBattery <= 20) {
+          // ✅ Add marker when battery drops <= 20
+          lowBatteryMarkers.push(path[i]);
+
           const pt = turf.point([path[i].lng, path[i].lat]);
           const nearbyStations = locations.filter(loc => {
-            const stationPt = turf.point([loc.longitude, loc.latitude]);
+            const stationPt = turf.point([Number(loc.longitude), Number(loc.latitude)]);
             const dist = turf.distance(pt, stationPt, { units: 'kilometers' });
             return dist <= 5;
           });
+
+          console.log(`At point ${i}, battery at ${remainingBattery.toFixed(1)}%. Found ${nearbyStations.length} nearby stations.`);
 
           if (nearbyStations.length > 0) {
             const nearest = nearbyStations.reduce((a, b) => {
@@ -167,44 +198,68 @@ const MapComponent = () => {
             });
 
             stops.push(nearest);
+
+            // Recharge
             currentBattery = 100;
             cumulativeDistance = 0;
           }
         }
       }
 
-      setChargingStops(stops);
-      setShowSidebar(true);
+      if (stops.length === 0) {
+        alert("No charging stations found within 5 km of route at low battery points.");
+      }
 
+      setChargingStops(stops);
+      setLowBatteryPoints(lowBatteryMarkers); // ✅ Update low battery markers
+      setShowSidebar(true);
     } catch (err) {
       console.error("Error fetching route:", err);
+      alert("Failed to fetch route.");
     }
   };
+  const openGoogleDirections = () => {
+  if (!start || !end) {
+    alert("Please set both start and end locations.");
+    return;
+  }
 
-  const getSoonestETA = (chargers) => {
-    let soonest = null;
-    chargers.forEach(c => {
-      if (c.status === 'plugged in' && c.chargingSession?.eta) {
-        const eta = new Date(c.chargingSession.eta);
-        if (!soonest || eta < soonest) {
-          soonest = eta;
-        }
-      }
-    });
-    return soonest;
-  };
+  const waypointStr = chargingStops
+    .map(stop => `${stop.latitude},${stop.longitude}`)
+    .join('|');
+
+  const url = `https://www.google.com/maps/dir/?api=1&origin=${start.lat},${start.lng}&destination=${end.lat},${end.lng}&travelmode=driving${waypointStr ? `&waypoints=${encodeURIComponent(waypointStr)}` : ''}`;
+
+  window.open(url, '_blank');
+};
+
 
   return (
     <>
-      <h2>Find Your Charging Station</h2>
       <input id="start" placeholder="Start Location" />
       <input id="end" placeholder="End Location" />
       <button onClick={handleRoute}>Plan Trip</button>
       <br />
       <button onClick={findNearest} style={{ marginTop: 10 }}>Find Nearest</button>
+      {chargingStops.length > 0 && (
+  <button onClick={openGoogleDirections} style={{ marginTop: 10 }}>
+    Open Route in Google Maps
+  </button>
+)}
+
 
       <div style={{ display: 'flex' }}>
-        <MapContainer center={[20.5937, 78.9629]} zoom={5} style={{ height: "600px", flex: 1, marginTop: 10 }}>
+        <MapContainer center={[22.9734, 78.6569]} // Central India
+  zoom={5}
+  style={{ height: "600px", flex: 1, marginTop: 10 }}
+  scrollWheelZoom={true}
+  maxBounds={[
+    [6.0, 68.0],  // Southwest corner (Kerala area)
+    [38.0, 97.0]  // Northeast corner (Arunachal area)
+  ]}
+  maxBoundsViscosity={1.0} // Makes the bounds sticky
+  minZoom={4}
+  maxZoom={18}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
           {userLocation && (
@@ -223,6 +278,7 @@ const MapComponent = () => {
               </Popup>
             </Marker>
           ))}
+
           {chargingStops.map((loc, i) => (
             <Marker key={`stop-${i}`} position={[loc.latitude, loc.longitude]} icon={greenIcon}>
               <Popup>
@@ -232,6 +288,18 @@ const MapComponent = () => {
               </Popup>
             </Marker>
           ))}
+
+          {/* ✅ Red markers at low battery points */}
+          {lowBatteryPoints.map((point, index) => (
+            <Marker
+              key={`low-battery-${index}`}
+              position={[point.lat, point.lng]}
+              icon={redDotIcon}
+            >
+              <Popup>Battery dropped below 20%</Popup>
+            </Marker>
+          ))}
+
           {routePoints.length > 0 && (
             <Polyline positions={routePoints.map(p => [p.lat, p.lng])} color="blue" />
           )}
@@ -277,17 +345,16 @@ const MapComponent = () => {
                   Source: {loc.sourceType}<br />
                   Distance: {loc.actualDistance.toFixed(2)} km<br />
                   {loc.chargerStatus?.available === 0 ? (
-  <span style={{ color: 'red' }}>
-    {(() => {
-      if (!loc.chargers || loc.chargers.length === 0) return "No chargers are added.";
-      const soonest = getSoonestETA(loc.chargers);
-      if (!soonest) return "All chargers busy. No ETA.";
-      const minutes = Math.max(Math.round((new Date(soonest) - new Date()) / 60000), 0);
-      return `Charger will be available in ${minutes} minutes`;
-    })()}
-  </span>
-) : null}
-
+                    <span style={{ color: 'red' }}>
+                      {(() => {
+                        if (!loc.chargers || loc.chargers.length === 0) return "No chargers are added.";
+                        const soonest = getSoonestETA(loc.chargers);
+                        if (!soonest) return "All chargers busy. No ETA.";
+                        const minutes = Math.max(Math.round((new Date(soonest) - new Date()) / 60000), 0);
+                        return `Charger will be available in ${minutes} minutes`;
+                      })()}
+                    </span>
+                  ) : null}
                   <br />
                   <a href={`/location/${loc._id}`} target="_blank">Details</a>
                 </li>

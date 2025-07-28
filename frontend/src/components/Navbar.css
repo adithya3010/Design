@@ -1,0 +1,84 @@
+/* ====== Navbar Styles ====== */
+nav {
+  background: linear-gradient(90deg, #388e3c 70%, #1976d2 100%);
+  color: #fff;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2.5rem;
+  box-shadow: 0 4px 32px rgba(44, 62, 80, 0.12);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+}
+
+nav .logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+nav .logo img {
+  height: 48px;
+  width: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.18);
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  margin-right: 2rem;
+  font-size: 1.1rem;
+  transition: color 0.2s;
+}
+
+nav a:hover {
+  color: #ffd600;
+}
+
+nav button {
+  background: #ffd600;
+  color: #388e3c;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.10);
+  transition: background 0.2s, color 0.2s;
+}
+
+nav button:hover {
+  background: #fffde7;
+  color: #1976d2;
+}
+
+nav .user-info {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-right: 1.5rem;
+  color: #e3f2fd;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  nav {
+    flex-direction: column;
+    height: auto;
+    padding: 1em;
+    border-radius: 0 0 18px 18px;
+  }
+  nav .logo img {
+    height: 36px;
+  }
+  nav a, nav .user-info {
+    margin-right: 1em;
+    font-size: 1rem;
+  }
+}

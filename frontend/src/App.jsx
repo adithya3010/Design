@@ -9,7 +9,13 @@ import RegisterForm from './components/RegisterForm';
 import Dashboard from './components/Dashboard';
 import Navbar from './components/Navbar'; // ✅ Import Navbar
 import { AuthProvider, AuthContext } from './context/AuthContext';
-import Unauthorized from './pages/Unauthorized'
+import Unauthorized from './pages/Unauthorized';
+import './styles/main.css';
+import Modal from './components/Modal'; // If you have a Modal component
+import AdminStationRequests from './components/AdminStationRequests'; // Admin requests page
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function ProtectedRoute({ children }) {
   const { user } = useContext(AuthContext);
@@ -20,10 +26,14 @@ function AdminRoute({ children }) {
   return user && user.role === 'admin' ? children : <Navigate to="/unauthorized" />;
 }
 const App = () => {
+  const [showAddStation, setShowAddStation] = React.useState(false);
+
   return (
+    <>
+    <ToastContainer position="top-right" autoClose={7000} />
     <AuthProvider>
       <Router>
-        <Navbar /> {/* ✅ Always visible on all pages */}
+        <Navbar onAddStation={() => setShowAddStation(true)} /> {/* Pass the function to Navbar */}
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
@@ -44,16 +54,21 @@ const App = () => {
             element={
               <div>
                 <h2 style={{ textAlign: 'center' }}>Find Your Charging Station</h2>
-                <AddLocationForm />
                 <MapComponent />
               </div>
             }
           />
-
+          <Route path="/admin/requests" element={<AdminStationRequests />} />
           <Route path="/location/:id" element={<LocationPage />} />
         </Routes>
+        {showAddStation && (
+          <Modal onClose={() => setShowAddStation(false)}>
+            <AddLocationForm />
+          </Modal>
+        )}
       </Router>
     </AuthProvider>
+    </>
   );
 };
 

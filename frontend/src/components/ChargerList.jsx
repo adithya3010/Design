@@ -79,9 +79,9 @@ export default function ChargerList({ chargers }) {
 
   return (
     <>
-      <ul>
+      <div className="charger-list">
         {chargers.map(charger => (
-          <li key={charger._id}>
+          <div className="charger-card" key={charger._id}>
             <strong>{charger.name}</strong> - {charger.type} ({charger.power} kW, Status: {charger.status})<br />
 
             {charger.status === 'plugged in' && charger.chargingSession ? (
@@ -103,7 +103,7 @@ export default function ChargerList({ chargers }) {
                   onClick={() => {
                     if (!user) {
                       alert("Please log in to plug in");
-                      setShowLogin(true); // ✅ Corrected state variable
+                      setShowLogin(true);
                     } else {
                       setShowFormId(charger._id);
                     }
@@ -151,10 +151,9 @@ export default function ChargerList({ chargers }) {
                 )}
               </>
             )}
-            <hr />
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
 
       {/* ✅ Login Modal */}
       {showLogin && (

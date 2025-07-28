@@ -5,7 +5,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(44, 62, 80, 0.25); /* Softer overlay */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,12 +13,14 @@
 }
 
 .modal-content {
-  background: white;
+  background: linear-gradient(135deg, #e8f5e9 0%, #f7faf9 100%);
   padding: 2rem;
-  border-radius: 10px;
-  max-width: 500px;
+  border-radius: 16px;
+  max-width: 480px;
   width: 100%;
   position: relative;
+  box-shadow: 0 4px 24px rgba(44, 62, 80, 0.12);
+  border: 1px solid #c8e6c9;
 }
 
 .close-button {
@@ -28,7 +30,13 @@
   background: none;
   border: none;
   font-size: 1.5rem;
+  color: #2e7d32;
   cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-button:hover {
+  color: #1976d2;
 }
 
 body.modal-open {
