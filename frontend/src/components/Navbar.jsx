@@ -19,7 +19,7 @@ export default function Navbar({ onAddStation }) {
   return (
     <nav>
       <div className="logo">
-        <Link to="/"><img src="/logo.png" alt="Logo" /></Link>
+        <Link to="/"><img src="/" alt="Logo" /></Link>
         <span>Electra Map</span>
       </div>
       <div>

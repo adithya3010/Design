@@ -51,7 +51,6 @@ const App = () => {
               path="/"
               element={
                 <div className="fade-in">
-                  <h2 style={{ textAlign: 'center' }} className="slide-up">Find Your Charging Station</h2>
                   <div className="scale-in">
                     <MapComponent />
                   </div>
