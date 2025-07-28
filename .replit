@@ -18,3 +18,7 @@ args = "cd backend && node server.js"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd frontend && npm start"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
