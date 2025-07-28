@@ -1,25 +1,3 @@
-// App.jsx
-import React, { useContext } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import MapComponent from './components/MapComponent';
-import AddLocationForm from './components/AddLocationForm';
-import LocationPage from './pages/LocationPage';
-import LoginForm from './components/LoginForm';
-import RegisterForm from './components/RegisterForm';
-import Dashboard from './components/Dashboard';
-import Navbar from './components/Navbar'; // ✅ Import Navbar
-import { AuthProvider, AuthContext } from './context/AuthContext';
-import Unauthorized from './pages/Unauthorized';
-import './styles/main.css';
-import Modal from './components/Modal'; // If you have a Modal component
-import AdminStationRequests from './components/AdminStationRequests'; // Admin requests page
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-
-function ProtectedRoute({ children }) {
-  const { user } = useContext(AuthContext);
-  return user ? children : <Navigate to="/login" />;
 import React, { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, AuthContext } from './context/AuthContext';
@@ -36,6 +14,12 @@ import Unauthorized from './pages/Unauthorized';
 import AdminStationRequests from './components/AdminStationRequests';
 import Modal from './components/Modal';
 import AddLocationForm from './components/AddLocationForm';
+import './styles/main.css';
+
+function ProtectedRoute({ children }) {
+  const { user } = useContext(AuthContext);
+  return user ? children : <Navigate to="/login" />;
+}
 
 function AdminRoute({ children }) {
   const { user } = useContext(AuthContext);
@@ -86,4 +70,4 @@ const App = () => {
   );
 };
 
-export default App;p;
+export default App;
