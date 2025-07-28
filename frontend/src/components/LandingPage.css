@@ -2,19 +2,18 @@
 /* Landing Page - Electric Energy Theme */
 
 .landing-page {
-  background: var(--background);
   min-height: 100vh;
 }
 
-/* Header Styles */
+/* Header Styles - Pure White */
 .header {
-  background: var(--surface);
+  background: #ffffff;
   padding: 0;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: var(--shadow-light);
-  border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .header-content {
@@ -35,30 +34,30 @@
 .logo-icon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, var(--brand-blue), var(--brand-blue-light));
+  background: linear-gradient(135deg, #1e40af, #3b82f6);
   border-radius: var(--radius);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
-  color: var(--text-inverse);
+  color: white;
   font-weight: bold;
-  box-shadow: var(--shadow-light);
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
 }
 
 .logo-text {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--text);
-  background: linear-gradient(135deg, var(--brand-blue), var(--brand-green));
+  color: #1f2937;
+  background: linear-gradient(135deg, #1e40af, #059669);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .login-signup-btn {
-  background: var(--accent-orange);
-  color: var(--text-inverse);
+  background: linear-gradient(135deg, #ea580c, #f97316);
+  color: white;
   border: none;
   border-radius: var(--radius);
   padding: 0.75rem 1.5rem;
@@ -68,20 +67,20 @@
   transition: var(--transition);
   text-decoration: none;
   display: inline-block;
-  box-shadow: var(--shadow-light);
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
 }
 
 .login-signup-btn:hover {
-  background: var(--accent-orange-light);
+  background: linear-gradient(135deg, #f97316, #fb923c);
   transform: translateY(-1px);
-  box-shadow: var(--shadow-medium);
+  box-shadow: 0 6px 16px rgba(234, 88, 12, 0.4);
 }
 
-/* Hero Section */
+/* Hero Section - Light Gray Background */
 .hero-section {
   padding: 5rem 2rem;
   text-align: center;
-  background: linear-gradient(135deg, var(--background) 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
 .hero-content {
@@ -92,13 +91,13 @@
 .hero-title {
   font-size: 3.5rem;
   font-weight: 700;
-  color: var(--text);
+  color: #1f2937;
   margin-bottom: 1.5rem;
   line-height: 1.1;
 }
 
 .hero-title span {
-  background: linear-gradient(135deg, var(--brand-blue), var(--brand-green));
+  background: linear-gradient(135deg, #1e40af, #059669);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -106,7 +105,7 @@
 
 .hero-description {
   font-size: 1.25rem;
-  color: var(--text-light);
+  color: #4b5563;
   margin-bottom: 2.5rem;
   line-height: 1.6;
   max-width: 600px;
@@ -115,8 +114,8 @@
 }
 
 .start-journey-btn {
-  background: linear-gradient(135deg, var(--brand-green), var(--brand-green-light));
-  color: var(--text-inverse);
+  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  color: white;
   border: none;
   border-radius: var(--radius);
   padding: 1rem 2rem;
@@ -124,20 +123,21 @@
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition);
-  box-shadow: var(--shadow-medium);
+  box-shadow: 0 4px 20px rgba(30, 64, 175, 0.3);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .start-journey-btn:hover {
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-strong);
+  box-shadow: 0 6px 25px rgba(30, 64, 175, 0.4);
 }
 
-/* Features Section */
+/* Features Section - Blue Gradient Background */
 .features-section {
   padding: 4rem 2rem;
-  background: var(--surface);
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 50%, #93c5fd 100%);
 }
 
 .features-grid {
@@ -149,15 +149,16 @@
 }
 
 .feature-card {
-  background: var(--surface);
+  background: #ffffff;
   border-radius: var(--radius-large);
   padding: 2rem 1.5rem;
   text-align: center;
-  box-shadow: var(--shadow-light);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   transition: var(--transition);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(10px);
 }
 
 .feature-card::before {
@@ -167,13 +168,14 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--brand-blue), var(--brand-green));
+  background: linear-gradient(90deg, #1e40af, #059669);
 }
 
 .feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-strong);
-  border-color: var(--brand-blue);
+  transform: translateY(-6px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  border-color: rgba(30, 64, 175, 0.3);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .feature-icon {
@@ -221,36 +223,53 @@
   font-size: 0.95rem;
 }
 
-/* CTA Section */
+/* CTA Section - Green to Teal Gradient */
 .cta-section {
   padding: 5rem 2rem;
   text-align: center;
-  background: linear-gradient(135deg, var(--brand-blue) 0%, var(--brand-green) 100%);
-  color: var(--text-inverse);
+  background: linear-gradient(135deg, #047857 0%, #059669 50%, #10b981 100%);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="50" cy="10" r="1" fill="rgba(255,255,255,0.03)"/><circle cx="10" cy="60" r="1" fill="rgba(255,255,255,0.03)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  opacity: 0.3;
 }
 
 .cta-content {
   max-width: 600px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .cta-title {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  color: var(--text-inverse);
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .cta-description {
   font-size: 1.1rem;
   margin-bottom: 2.5rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95);
   line-height: 1.6;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .get-started-btn {
-  background: var(--surface);
-  color: var(--brand-blue);
+  background: white;
+  color: #047857;
   border: none;
   border-radius: var(--radius);
   padding: 1rem 2rem;
@@ -258,15 +277,16 @@
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition);
-  box-shadow: var(--shadow-medium);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .get-started-btn:hover {
-  background: var(--surface-hover);
+  background: #f8fafc;
   transform: translateY(-2px);
-  box-shadow: var(--shadow-strong);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+  color: #059669;
 }
 
 /* Responsive Design */
